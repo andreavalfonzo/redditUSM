@@ -1,0 +1,5 @@
+id,subreddit,tipo,fecha,texto,score,num_comentarios,texto_limpio,sentimiento,prob_neg,prob_neu,prob_pos
+1,chile,post,2026-03-20,La USM es difícil pero tiene buen nivel 😭,15,8,La USM es difícil pero tiene buen nivel 😭,NEU,0.10160519182682037,0.5572484135627747,0.34114646911621094
+2,EducacionChile,comentario,2026-03-21,La carga académica en la UTFSM es demasiado pesada,7,0,La carga académica en la UTFSM es demasiado pesada,NEG,0.9731928706169128,0.02372658997774124,0.003080555936321616
+3,chileIT,post,2026-03-22,¿Vale la pena estudiar informática en la Santa María?,20,12,¿Vale la pena estudiar informática en la Santa María?,NEU,0.12363459914922714,0.8058481216430664,0.07051730901002884
+4,chile,comentario,2026-03-23,Los profes son buenos pero el estrés es horrible 💀,30,2,Los profes son buenos pero el estrés es horrible 💀,NEG,0.7346636056900024,0.2534458637237549,0.011890585534274578

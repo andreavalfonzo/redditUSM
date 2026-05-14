@@ -2,9 +2,12 @@
 Analytics module - Sentiment Analysis, Word Clouds, Statistics
 """
 import re
+import unicodedata
 from collections import Counter
 from pathlib import Path
 import sys
+
+# ... (POSITIVE_WORDS, NEGATIVE_WORDS, INTENSIFIERS unchanged)
 
 # Simple sentiment analysis without external dependencies
 POSITIVE_WORDS = {
@@ -43,8 +46,9 @@ def analyze_sentiment(text):
     if not text:
         return 0.0, 'neutral'
     
-    # Clean and tokenize
-    words = re.findall(r'\b[a-z]+\b', text.lower())
+    # Clean and tokenize (supporting Spanish characters)
+    word_pattern = re.compile(r'\b[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ]+\b')
+    words = word_pattern.findall(text.lower())
     
     if not words:
         return 0.0, 'neutral'
@@ -108,54 +112,48 @@ def analyze_comments_sentiment(comments):
     
     return results, sentiment_counts
 
-# Comprehensive Stopwords (English + Spanish)
+# Comprehensive Stopwords (Spanish + English)
+# Chilean slang and variations included
 STOPWORDS = {
     # English
-    'the', 'a', 'an', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
-    'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
-    'should', 'may', 'might', 'must', 'shall', 'can', 'to', 'of', 'in',
-    'for', 'on', 'with', 'at', 'by', 'from', 'as', 'into', 'through',
-    'during', 'before', 'after', 'above', 'below', 'between', 'under',
-    'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where',
-    'why', 'how', 'all', 'each', 'few', 'more', 'most', 'other', 'some',
-    'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than',
-    'too', 'very', 'just', 'and', 'but', 'if', 'or', 'because', 'until',
-    'while', 'this', 'that', 'these', 'those', 'i', 'me', 'my', 'myself',
-    'we', 'our', 'you', 'your', 'he', 'she', 'it', 'they', 'them', 'what',
-    'which', 'who', 'whom', 'its', 'his', 'her', 'their', 'our', 'up',
-    'out', 'about', 'any', 'also', 'get', 'got', 'like', 'one', 'two',
-    'know', 'even', 'new', 'want', 'way', 'people', 'time', 'year', 'think',
-    'amp', 'http', 'https', 'www', 'com', 'reddit', 'deleted', 'removed', 'nan',
-    # Spanish
-    'que', 'de', 'la', 'en', 'el', 'un', 'una', 'los', 'las', 'con', 'por', 'para',
-    'como', 'más', 'pero', 'sus', 'esta', 'este', 'esto', 'esa', 'ese', 'eso',
-    'del', 'al', 'nos', 'me', 'mi', 'mis', 'te', 'su', 'sus', 'lo', 'le', 'les',
-    'está', 'están', 'fue', 'eran', 'era', 'son', 'soy', 'es', 'ha', 'han', 'hay',
-    'todo', 'toda', 'todos', 'todas', 'muy', 'más', 'tan', 'así', 'solo', 'sólo',
-    'ahora', 'después', 'antes', 'cuando', 'donde', 'quien', 'quienes', 'cual', 'cuáles',
-    'si', 'sí', 'no', 'ni', 'ya', 'porque', 'porqué', 'sobre', 'entre', 'hasta', 'desde',
-    'hacia', 'ante', 'bajo', 'sin', 'tras', 'contra', 'según', 'durante', 'mientras',
-    'cada', 'mucho', 'poco', 'alguno', 'alguna', 'algunos', 'algunas', 'otro', 'otra',
-    'otros', 'otras', 'estos', 'estas', 'aquél', 'aquella', 'aquellos', 'aquellas',
-    'universidad', 'mismo', 'misma', 'mismos', 'mismas', 'tenía', 'tienen', 'tiene',
-    'hacer', 'hecho', 'hace', 'puedo', 'puede', 'pueden', 'ser', 'siendo', 'ir', 'voy', 'va',
-    'estaba', 'pasa', 'solo', 'siempre', 'hace', 'hacer', 'tengo', 'tiene', 'tienen',
-    # Informal / Slang / Typos (Chilean Context)
-    'q', 'que', 'k', 'd', 'del', 'al', 'e', 'he', 'a', 'ha', 'o', 'u', 'y', 'i',
-    'pork', 'pq', 'porque', 'porq', 'tmb', 'tambien', 'asiq', 'asique', 'cl', 'chile',
-    're', 'tan', 'muy', 'mucha', 'mucho', 'poco', 'na', 'nada', 'ni', 'sino',
-    # More connectors, pronouns and common verbs
-    'se', 'etc', 'pueda', 'pueden', 'puedo', 'siento', 'creo', 'ahi', 'ahí', 'esas', 
-    'esos', 'entonces', 'aun', 'aún', 'solo', 'sólo', 'aquí', 'aqui', 'alla', 'allá',
-    'siempre', 'nunca', 'veces', 'bueno', 'malo', 'bien', 'mal', 'hacer', 'hace', 
-    'haciendo', 'decir', 'dijo', 'ver', 'visto', 'ir', 'vamos', 'van', 'uno', 'dos', 
-    'tres', 'alguna', 'algunas', 'otro', 'otra', 'otros', 'otras', 'tanto', 'tanta', 
-    'mismo', 'misma', 'parece', 'parte', 'tipo', 'cosa', 'cosas', 'sabe', 'saben', 
-    'creo', 'crees', 'creemos', 'pienso', 'parece', 'queda', 'quedan', 'puedas',
-    # Latest requests
-    'alguien', 'uno', 'puedo', 'dia', 'día', 'se', 'sé', 'e', 'caso', 'casos',
-    'solo', 'solamente', 'tanto', 'tan', 'bien', 'mal', 'estoy', 'esta', 'está',
-    'tu', 'tus', 'vale', 'tula'
+    'a', 'about', 'after', 'again', 'all', 'also', 'amp', 'an', 'and', 'any', 'are', 'as', 'at',
+    'be', 'because', 'been', 'before', 'being', 'below', 'between', 'but', 'by', 'can', 'com',
+    'could', 'deleted', 'did', 'do', 'does', 'during', 'each', 'even', 'few', 'for', 'from',
+    'further', 'get', 'got', 'had', 'has', 'have', 'he', 'her', 'here', 'his', 'how', 'http',
+    'https', 'i', 'if', 'in', 'into', 'is', 'it', 'its', 'just', 'know', 'like', 'may', 'me',
+    'might', 'more', 'most', 'must', 'my', 'myself', 'nan', 'new', 'no', 'nor', 'not', 'of',
+    'on', 'once', 'only', 'or', 'other', 'our', 'own', 'people', 'reddit', 'removed', 'same',
+    'shall', 'she', 'should', 'so', 'some', 'such', 'than', 'that', 'the', 'their', 'them',
+    'then', 'there', 'these', 'they', 'this', 'those', 'through', 'think', 'time', 'to', 'too',
+    'two', 'under', 'until', 'up', 'very', 'want', 'was', 'way', 'we', 'were', 'what', 'when',
+    'where', 'which', 'while', 'who', 'whom', 'why', 'will', 'with', 'would', 'www', 'year', 'you', 'your',
+    # Spanish - Básicas y Conectores
+    'acá', 'ahí', 'ahora', 'al', 'algo', 'alguna', 'algunas', 'alguno', 'algunos', 'allá', 'allí',
+    'ante', 'antes', 'aquel', 'aquella', 'aquellas', 'aquello', 'aquellos', 'aquí', 'así', 'aun', 'aún',
+    'aunque', 'bajo', 'bien', 'bueno', 'cada', 'casa', 'casi', 'caso', 'casos', 'cl', 'como', 'cómo',
+    'con', 'conmigo', 'contra', 'contigo', 'creo', 'cual', 'cuál', 'cuales', 'cuáles', 'cuando', 'cuándo',
+    'cuanto', 'cuántos', 'da', 'dar', 'dato', 'de', 'decir', 'del', 'desde', 'después', 'día', 'dice',
+    'dijo', 'donde', 'dónde', 'dos', 'durante', 'e', 'el', 'él', 'ella', 'ellas', 'ello', 'ellos',
+    'en', 'entonces', 'entre', 'era', 'eran', 'es', 'esa', 'ese', 'eso', 'esas', 'esos', 'esta',
+    'está', 'estaba', 'estamos', 'están', 'estar', 'estas', 'estás', 'este', 'esto', 'estos', 'estoy',
+    'etc', 'fue', 'fueron', 'ha', 'había', 'habían', 'haber', 'hace', 'hacen', 'hacer', 'hacia', 'haciendo',
+    'han', 'hasta', 'hay', 'he', 'hecho', 'hola', 'hola.', 'hoy', 'ir', 'jamás', 'junto', 'la', 'las',
+    'le', 'les', 'lo', 'los', 'ma', 'mal', 'malo', 'más', 'mas', 'me', 'mi', 'mí', 'mismo', 'misma',
+    'mismos', 'mismas', 'mis', 'mientras', 'mucho', 'muchos', 'mucha', 'muchas', 'muy', 'nada', 'ni',
+    'no', 'nos', 'nosotras', 'nosotros', 'nunca', 'o', 'otra', 'otro', 'otras', 'otros', 'pa', 'para',
+    'parece', 'parte', 'pasa', 'pero', 'poco', 'pocos', 'poda', 'poder', 'podría', 'podrían', 'porque',
+    'porqué', 'por', 'post', 'puede', 'pueden', 'puedo', 'puedas', 'puntos', 'punto', 'que', 'qué',
+    'quedan', 'queda', 'quien', 'quién', 'quienes', 'quiénes', 'quiero', 'quizá', 'quizás', 're', 'sabe',
+    'saben', 'saber', 'sacar', 'se', 'sé', 'según', 'ser', 'será', 'sería', 'si', 'sí', 'siempre',
+    'siendo', 'sin', 'sino', 'sobre', 'solo', 'sólo', 'solamente', 'son', 'soy', 'su', 'sus', 'tal',
+    'también', 'tambien', 'tan', 'tanta', 'tanto', 'tantos', 'te', 'tenía', 'tenían', 'tiene', 'tienen',
+    'tengo', 'ti', 'tipo', 'toda', 'todas', 'todo', 'todos', 'tras', 'u', 'un', 'una', 'unas', 'uno',
+    'unos', 'usted', 'ustedes', 'va', 'vale', 'vamos', 'van', 'varios', 'veces', 'ver', 'verdad',
+    'vez', 'ves', 'visto', 'voy', 'y', 'ya', 'yo',
+    # Informal / Slang / Chilean Context (The "Wea" Family and more)
+    'amigo', 'asiq', 'asique', 'chile', 'ctm', 'conchetumare', 'd', 'k', 'pork', 'porq', 'pq', 'q', 'tmb',
+    'tula', 'tulon', 'wea', 'weá', 'weas', 'weás', 'weon', 'weón', 'weones', 'weona', 'wear', 'weando',
+    'universidad', 'usm', 'u', 'informática', 'informatica', 'civil', 'ingeniería', 'ingenieria', 'ing'
 }
 
 def analyze_sentiment_advanced(text):
@@ -179,14 +177,21 @@ def analyze_sentiment_advanced(text):
         return 0.0, "neutral"
 
 def extract_keywords(texts, top_n=50):
-    """Extract most common keywords from texts."""
+    """Extract most common keywords from texts with Unicode normalization."""
     all_words = []
+    # Regex for words (including Spanish characters), at least 2 characters
+    word_pattern = re.compile(r'\b[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ]{2,}\b')
+    
     for text in texts:
         if text:
-            words = re.findall(r'\b[a-z]{3,}\b', text.lower())
+            # Normalize to NFC (composed) for consistent matching with STOPWORDS
+            # This ensures that 'á' is one character regardless of input source
+            normalized_text = unicodedata.normalize('NFC', str(text).lower())
+            words = word_pattern.findall(normalized_text)
             all_words.extend([w for w in words if w not in STOPWORDS])
     
     return Counter(all_words).most_common(top_n)
+
 
 def generate_wordcloud_data(texts, top_n=100):
     """Generate word frequency data for word cloud visualization."""

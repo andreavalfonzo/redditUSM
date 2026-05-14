@@ -1,5 +1,6 @@
 # RedditUSM 🎓
 
+<<<<<<< HEAD
 > Sistema de minería de datos y análisis de opiniones sobre la Universidad Técnica Federico Santa María mediante publicaciones de Reddit.
 
 ---
@@ -101,10 +102,59 @@ RedditUSM/
 ├── main.py
 ├── README.md
 └── requirements.txt
+=======
+> Análisis de opiniones sobre la Universidad Técnica Federico Santa María a partir de publicaciones en Reddit.
+
+---
+
+## 📋 Descripción
+
+RedditUSM es un sistema de análisis de opiniones (*sentiment analysis*) que extrae y procesa publicaciones de Reddit relacionadas con la UTFSM. El proyecto aplica técnicas de procesamiento de lenguaje natural (NLP) y aprendizaje automático para identificar tendencias, tópicos y sentimientos expresados por la comunidad.
+
+---
+
+## 🚀 Características
+
+- Scraping automatizado de posts y comentarios desde Reddit (PRAW)
+- Análisis de sentimientos con modelos de lenguaje (pysentimiento / RoBERTa)
+- Modelado de tópicos con LDA y BERTopic
+- Clasificación de textos con SVM y regresión logística
+- Clustering semántico con K-Means
+- Pipeline modular y reproducible
+
+---
+
+## 🗂️ Estructura del proyecto
+
+```
+RedditUSM/
+├── data/
+│   ├── raw/               # Datos crudos descargados de Reddit
+│   └── processed/         # Datos limpios y preprocesados
+├── notebooks/
+│   ├── 01_scraping.ipynb
+│   ├── 02_preprocessing.ipynb
+│   ├── 03_sentiment.ipynb
+│   ├── 04_topic_modeling.ipynb
+│   └── 05_classification.ipynb
+├── src/
+│   ├── scraper.py         # Módulo de extracción de datos
+│   ├── preprocess.py      # Limpieza y normalización de texto
+│   ├── sentiment.py       # Análisis de sentimientos
+│   ├── topics.py          # Modelado de tópicos
+│   └── classifier.py      # Modelos de clasificación
+├── results/
+│   ├── figures/           # Visualizaciones generadas
+│   └── reports/           # Reportes y métricas
+├── requirements.txt
+├── .env.example
+└── README.md
+>>>>>>> feature_preprocessing
 ```
 
 ---
 
+<<<<<<< HEAD
 # ⚙️ Instalación
 
 ## Requisitos
@@ -155,6 +205,36 @@ pip install -r requirements.txt
 Crear un archivo `.env` basado en `.env.example`.
 
 Ejemplo:
+=======
+## ⚙️ Instalación
+
+### Prerrequisitos
+
+- Python 3.9+
+- Cuenta de desarrollador en Reddit ([Reddit Apps](https://www.reddit.com/prefs/apps))
+
+### Pasos
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/usuario/RedditUSM.git
+cd RedditUSM
+
+# 2. Crear entorno virtual
+python -m venv venv
+source venv/bin/activate        # Linux/macOS
+# venv\Scripts\activate         # Windows
+
+# 3. Instalar dependencias
+pip install -r requirements.txt
+
+# 4. Configurar credenciales de Reddit
+cp .env.example .env
+# Editar .env con tus credenciales de la Reddit API
+```
+
+### Variables de entorno (`.env`)
+>>>>>>> feature_preprocessing
 
 ```env
 REDDIT_CLIENT_ID=tu_client_id
@@ -164,6 +244,7 @@ REDDIT_USER_AGENT=RedditUSM/1.0
 
 ---
 
+<<<<<<< HEAD
 # 🧪 Uso actual
 
 Actualmente se encuentran implementados los módulos de:
@@ -181,10 +262,21 @@ python src/preprocess.py
 
 # Análisis exploratorio
 python src/analysis.py
+=======
+## 🧪 Uso
+
+```bash
+# Ejecutar scraping
+python src/scraper.py --query "UTFSM" --subreddit "chile" --limit 500
+
+# Preprocesar datos
+python src/preprocess.py
+>>>>>>> feature_preprocessing
 
 # Análisis de sentimientos
 python src/sentiment.py
 
+<<<<<<< HEAD
 # Visualización
 python src/visualize.py
 ```
@@ -249,6 +341,34 @@ Estos archivos contienen:
 - Coherencia semántica (Cv Score)
 - Silhouette Score
 - Calinski-Harabasz Index
+=======
+# Modelado de tópicos
+python src/topics.py --method bertopic
+```
+
+O bien, ejecutar los notebooks en orden desde la carpeta `notebooks/`.
+
+---
+
+## 📊 Metodología
+
+| Etapa | Técnica | Herramienta |
+|---|---|---|
+| Extracción | Web scraping via API | PRAW |
+| Preprocesamiento | Tokenización, lematización | spaCy |
+| Sentimientos | Clasificación con transformer | pysentimiento |
+| Tópicos | LDA / BERTopic | Gensim, BERTopic |
+| Clustering | K-Means semántico | scikit-learn |
+| Clasificación | SVM, Regresión Logística | scikit-learn |
+
+---
+
+## 📈 Métricas de evaluación
+
+- **Coherencia de tópicos:** Cv score
+- **Clasificación:** F1-macro, precisión, recall
+- **Clustering:** Silhouette score, índice Calinski-Harabasz
+>>>>>>> feature_preprocessing
 
 ---
 
@@ -262,6 +382,7 @@ Estos archivos contienen:
 
 ---
 
+<<<<<<< HEAD
 # ⚠️ Consideraciones
 
 - El proyecto utiliza únicamente información pública disponible en Reddit.
@@ -271,10 +392,16 @@ Estos archivos contienen:
 
 ---
 
+=======
+>>>>>>> feature_preprocessing
 ## 📄 Licencia
 
 Este proyecto fue desarrollado con fines académicos en el contexto del curso **TEL354 — Minería de Datos**, Universidad Técnica Federico Santa María.
 
 ---
 
+<<<<<<< HEAD
 UTFSM · Departamento de Electrónica · Santiago, Chile
+=======
+UTFSM · Departamento de Electrónica · Santiago, Chile
+>>>>>>> feature_preprocessing

@@ -1,6 +1,5 @@
 # RedditUSM 🎓
 
-<<<<<<< HEAD
 > Sistema de minería de datos y análisis de opiniones sobre la Universidad Técnica Federico Santa María mediante publicaciones de Reddit.
 
 ---

@@ -37,12 +37,6 @@ Ya se encuentra implementado:
 - Generación automática de visualizaciones
 - Exportación de datasets procesados en CSV
 
-La extracción real desde Reddit será habilitada cuando se obtengan las credenciales oficiales de la API de Reddit.
-
-Actualmente el proyecto utiliza datasets ficticios (`reddit_mock.csv`) para desarrollar y validar el pipeline de procesamiento, debido a que el acceso oficial a la API de Reddit aún se encuentra pendiente de aprobación.
-
-Mientras tanto, se trabaja con datasets de prueba para desarrollar y validar el pipeline de análisis.
-
 ---
 
 # 🚀 Características implementadas
@@ -64,6 +58,7 @@ Mientras tanto, se trabaja con datasets de prueba para desarrollar y validar el 
 - Clustering semántico con K-Means
 - Dashboard interactivo
 - Análisis temporal de opiniones
+- Comparación entre comunidades
 
 ---
 

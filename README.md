@@ -271,8 +271,11 @@ python src/preprocess.py
 python src/sentiment.py
 
 <<<<<<< HEAD
-# Visualización
+# Visualización estática
 python src/visualize.py
+
+# Visualización Web interactiva (Dashboard)
+streamlit run src/app.py
 ```
 
 Cuando las credenciales de Reddit sean aprobadas, se habilitará la extracción real de publicaciones mediante la API oficial de Reddit.

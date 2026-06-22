@@ -198,73 +198,11 @@ def live_analysis_ui():
                 st.markdown("---")
                 render_dashboard(df_results)
 
-# Lógica de footer
-def layout(*args):
-
-    style = """
-    <style>
-      # MainMenu {visibility: hidden;}
-      footer {visibility: hidden;}
-     .stApp { bottom: 105px; }
-    </style>
-    """
-
-    style_div = styles(
-        position="fixed",
-        left=0,
-        bottom=0,
-        margin=ht_px(0, 0, 0, 0),
-        width=percent(100),
-        color="black",
-        text_align="center",
-        height="auto",
-        opacity=1
-    )
-
-    style_hr = styles(
-        display="block",
-        margin=ht_px(8, 8, "auto", "auto"),
-        border_style="inset",
-        border_width=ht_px(2)
-    )
-
-    body = p()
-    foot = div(
-        style=style_div
-    )(
-        hr(
-            style=style_hr
-        ),
-        body
-    )
-
-    st.markdown(style, unsafe_allow_html=True)
-
-    for arg in args:
-        if isinstance(arg, str):
-            body(arg)
-
-        elif isinstance(arg, HtmlElement):
-            body(arg)
-
-    st.markdown(str(foot), unsafe_allow_html=True)
-def footer():
-    myargs = [
-        "Integrantes:",
-        "Byron Agurto",
-        "Andrea Alfonzo",
-        "Gabriela Tringo",
-        "TEL 354 - Minería de datos - 2026.1",
-        "Todos los derechos reservados © 2026"
-    ]
-
 def main():
     st.title("📈 r/RedditUSM")
     st.markdown("Analizador de tendencias de opiniones sobre la UTFSM utilizando **Natural Language Processing (NLP)**. Proyecto destinado al ramo **TEL 354** (Minería de datos)")
     
     tab1, tab2 = st.tabs(["Dashboard Histórico", "Análisis en Vivo"])
-
-    footer()
     
     with tab1:
         df_hist = load_historical_data()

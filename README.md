@@ -121,14 +121,12 @@ Luego instala de golpe todas las dependencias necesarias del proyecto utilizando
 ```bash
 pip install -r requirements.txt
 ```
-Luego de que se hayan instalado todas las dependencias, dale a `play` a la primera celda, esta te redigirá a la selección de un entorno en la parte superior del Visual Studio.
+Luego de que se hayan instalado todas las dependencias, dale a `play` a la primera celda, esta te redirigirá a la selección de un entorno en la parte superior del Visual Studio Code.
 
-![Selecciona el tipo de Kernel](results\figures\Seleccionar_tipo_de_kenel.png)
+![Selecciona el tipo de Kernel](results/figures/Seleccionar_tipo_de_kenel.png)
 
 Vas a seleccionar la opción de `Jupyter Kernel`.
 
+![Entorno venv creado tipo Python](results/figures/Entorno_de_python_creado.png)
 
-![Entorno venv creado tipo Python](results\figures\Entorno_de_python_creado.png)
-
-Luego seleccionas la opción creada en el entorno `venv` (normalmente es el que tiene el simbolo de estrella).
-Y finalmente puedes correr todas las celdas y ejecutar el proyecto de forma continua y sin errores.
+Luego seleccionas la opción creada en el entorno `venv` (normalmente es el que tiene el símbolo de estrella). Y finalmente puedes correr todas las celdas y ejecutar el proyecto de forma continua y sin errores.

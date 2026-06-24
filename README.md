@@ -55,33 +55,23 @@ En lugar de depender de matrices de confusión abstractas basadas en Inteligenci
 
 ```text
 REDDITUSM/
-├── data/
-│   ├── processed/         # CSVs finales filtrados y etiquetados
-│   └── raw/               # CSV de prueba
 ├── notebooks/
 │   └── USM_Sentiment_Analysis.ipynb   # Entorno interactivo y gráficos
-├── results/
-│   └── figures/           # Gráficos estáticos exportados
-├── src/                   # Código fuente modular
-│   ├── analytics/         # Estadísticas y métricas de sentimiento
-│   ├── data/              # Caché y almacenamiento de consultas
-│   ├── scraper/           # Ingesta asíncrona (PullPush)
-│   ├── search/            # Motor de búsquedas internas
-│   ├── analysis.py        # Orquestador exploratorio
-│   ├── app.py             # Dashboard (Streamlit)
-│   ├── classifier.py      # Lógica de modelos supervisados
-│   ├── config.py          # Variables globales
-│   ├── main.py            # Script ejecutor del pipeline en src
-│   ├── preprocess.py      # Limpieza léxica y temporal
-│   ├── reddit_search.py   # Consultas complementarias
-│   ├── scraper.py         # Módulo base de extracción
-│   ├── sentiment.py       # Clasificador transformer
-│   ├── topics.py          # Reglas para modelado de tópicos
-│   └── visualize.py       # Renderizado de gráficos de impacto
-├── .gitignore             # Exclusión de archivos locales
-├── main.py                # Ejecutor raíz del sistema completo
-├── README.md              # Documentación
-└── requirements.txt       # Dependencias
+├── results/                           # Carpeta de salida para exportar figuras
+├── src/                               # Código fuente modular
+│   ├── analytics/                     # Módulos de análisis y extracción
+│   │   ├── reddit_search.py           # Ingesta de posts desde Reddit (PullPush API)
+│   │   └── sentiment.py               # Clasificador de sentimientos (Transformer)
+│   ├── data/                          # Almacenamiento de datos locales de Reddit
+│   │   ├── r/                         # Extracciones divididas por subreddit
+│   │   └── usm_final/                 # Dataset consolidado de entrenamiento
+│   ├── pages/                         # Vistas de la aplicación Streamlit
+│   │   └── notebook.py                # Dashboard principal con visualizaciones
+│   ├── app.py                         # Punto de entrada de la aplicación Streamlit
+│   └── utils.py                       # CSS global, cargador de datos y funciones de utilidad
+├── .gitignore                         # Exclusión de archivos locales y del entorno virtual
+├── README.md                          # Documentación del proyecto
+└── requirements.txt                   # Dependencias de Python requeridas
 ```
 
 ## ⚙️ Instalación y Uso Paso a Paso (Simulación de Entorno)
@@ -104,10 +94,12 @@ cd RedditUSM
 code .
 ```
 Luego de haber ejecutado la ultima línea, esta te abrirá una nueva ventana en la que estrás trabajando en tu proyecto ```Reddit```.
-Luego abre la carpeta `notebooks` y seleccionas el archivo `USM_Sentiment_Analysis.ipynb`. Abre la terminal con el comando `Ctrl + Shift + ñ`, y muévete inmediatamente a la rama de desarrollo para asegurar el entorno de trabajo correcto:
+Luego abre la carpeta `notebooks` y seleccionas el archivo `USM_Sentiment_Analysis.ipynb`. Abre la terminal, y asegúrate de estar en la rama de desarrollo/trabajo correcta:
+
 ```bash
-git checkout dev
+git checkout main
 ```
+
 Crea y activa el entorno virtual aislado para evitar conflictos con otras librerías del sistema (comandos para Windows):
 ```bash
 python -m venv .venv
@@ -121,12 +113,19 @@ Luego instala de golpe todas las dependencias necesarias del proyecto utilizando
 ```bash
 pip install -r requirements.txt
 ```
-Luego de que se hayan instalado todas las dependencias, dale a `play` a la primera celda, esta te redirigirá a la selección de un entorno en la parte superior del Visual Studio Code.
 
-![Selecciona el tipo de Kernel](results/figures/Seleccionar_tipo_de_kenel.png)
+### 3. Ejecución de la Aplicación (Dashboard Streamlit)
+Una vez instaladas todas las dependencias, puedes iniciar la interfaz web interactiva donde se visualizan los resultados del análisis:
 
-Vas a seleccionar la opción de `Jupyter Kernel`.
+Navega a la carpeta de código fuente `src` y ejecuta la aplicación:
+```bash
+cd src
+streamlit run app.py
+```
 
-![Entorno venv creado tipo Python](results/figures/Entorno_de_python_creado.png)
+O de forma alternativa, ejecútalo directamente desde la raíz del repositorio:
+```bash
+streamlit run src/app.py
+```
 
-Luego seleccionas la opción creada en el entorno `venv` (normalmente es el que tiene el símbolo de estrella). Y finalmente puedes correr todas las celdas y ejecutar el proyecto de forma continua y sin errores.
+Streamlit iniciará un servidor local y te mostrará las direcciones URL en la consola. La aplicación se abrirá automáticamente en tu navegador predeterminado (usualmente en `http://localhost:8501`), mostrando el análisis completo y todos los gráficos interactivos.

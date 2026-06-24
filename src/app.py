@@ -7,14 +7,11 @@ import streamlit as st
 
 # Definir páginas con st.Page (cada una tiene su propio set_page_config)
 pg_notebook = st.Page("pages/notebook.py",  title="Todas las métricas", icon="📊", default=True)
-pg_live     = st.Page("pages/live.py",      title="Análisis en Vivo",icon="🔍")
-pg_timeline = st.Page("pages/timeline.py",  title="Evolución Temporal",icon="📅")
 
 # Navegación lateral agrupada
 nav = st.navigation(
     {
-        "Análisis": [pg_notebook],
-        "Búsqueda": [pg_live, pg_timeline],
+        "Análisis": [pg_notebook]
     }
 )
 

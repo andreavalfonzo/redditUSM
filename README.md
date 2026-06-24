@@ -80,7 +80,7 @@ Sigue estos pasos exactos para clonar, configurar y ejecutar el proyecto localme
 
 ### 1. Abrir tu Editor de Código
 * Abre **Visual Studio Code** (o tu IDE de preferencia).
-* Abre una nueva ventana de la **Terminal** (`Ctrl + Shift + ñ` o a través del menú superior `Terminal -> New Terminal`).
+* Abre una nueva ventana de la **Terminal**.
 
 ### 2. Clonar el Repositorio y Entrar al Proyecto
 Copia y pega el siguiente comando en la terminal que acabas de abrir para descargar el proyecto e ingresar a su directorio raíz:
@@ -94,38 +94,36 @@ cd RedditUSM
 code .
 ```
 Luego de haber ejecutado la ultima línea, esta te abrirá una nueva ventana en la que estrás trabajando en tu proyecto ```Reddit```.
-Luego abre la carpeta `notebooks` y seleccionas el archivo `USM_Sentiment_Analysis.ipynb`. Abre la terminal, y asegúrate de estar en la rama de desarrollo/trabajo correcta:
+Luego abre la carpeta `notebooks` y seleccionas el archivo `USM_Sentiment_Analysis.ipynb`. Abre la terminal, y muévete inmediatamente a la rama de desarrollo para asegurar el entorno de trabajo correcto:
 
 ```bash
 git checkout main
 ```
+Crea y activa el entorno virtual aislado para evitar conflictos con otras librerías del sistema.
 
-Crea y activa el entorno virtual aislado para evitar conflictos con otras librerías del sistema (comandos para Windows):
 ```bash
 python -m venv .venv
 ```
+### Windows
 ```bash
 .venv\Scripts\activate
 ```
+### Linux
+```bash
+source .venv/bin/activate
+```
 _(Sabrás que funcionó porque aparecerá el prefijo (.venv) al inicio de tu línea de comandos)._
 
-Luego instala de golpe todas las dependencias necesarias del proyecto utilizando el archivo de requisitos (este paso puede demorar un poco):
+### Instalar dependencias
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Ejecución de la Aplicación (Dashboard Streamlit)
-Una vez instaladas todas las dependencias, puedes iniciar la interfaz web interactiva donde se visualizan los resultados del análisis:
+### Ejecutar página web
 
-Navega a la carpeta de código fuente `src` y ejecuta la aplicación:
-```bash
-cd src
-streamlit run app.py
-```
-
-O de forma alternativa, ejecútalo directamente desde la raíz del repositorio:
 ```bash
 streamlit run src/app.py
 ```
 
-Streamlit iniciará un servidor local y te mostrará las direcciones URL en la consola. La aplicación se abrirá automáticamente en tu navegador predeterminado (usualmente en `http://localhost:8501`), mostrando el análisis completo y todos los gráficos interactivos.
+Se abrirá tu navegador por defecto con la página principal del proyecto. Para detener el servidor, presiona `Ctrl + C` en la terminal.
